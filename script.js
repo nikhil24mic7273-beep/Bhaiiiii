@@ -327,11 +327,11 @@ function gameOver() {
 
 
         // Show and play video
-        gameOverVideo.style.display = "block";
-
-        gameOverVideo.currentTime = 0;
-
-        gameOverVideo.play();
+       gameOverVideo.style.display = "block";
+       gameOverVideo.currentTime = 0;
+       gameOverVideo.muted = false;
+       gameOverVideo.volume = 1;
+       gameOverVideo.play(); 
 
     };
 }
