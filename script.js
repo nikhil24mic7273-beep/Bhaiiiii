@@ -49,7 +49,7 @@ function startGame() {
     scoreDisplay.textContent = score;
 
     faceY = 300;
-    velocity = 0;
+    velocity = -2;
 
     face.style.top = faceY + "px";
 
