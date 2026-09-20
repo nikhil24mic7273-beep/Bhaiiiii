@@ -4,6 +4,13 @@ const scoreDisplay = document.getElementById("score");
 const startScreen = document.getElementById("start-screen");
 const startButton = document.getElementById("start-button");
 
+const bgMusic = document.getElementById("bgMusic");
+const outMusic = document.getElementById("outMusic");
+const gameOverVideo = document.getElementById("gameOverVideo");
+
+bgMusic.volume = 0.35;
+outMusic.volume = 0.6;
+
 let faceY;
 let velocity;
 
@@ -18,8 +25,23 @@ let score = 0;
 let pipeTimer;
 
 
+// ====================
 // START GAME
+// ====================
 function startGame() {
+
+    // Normal face
+    document.querySelector("#face img").src =
+        "face.jpeg";
+
+    // Stop Game Over music
+    outMusic.pause();
+    outMusic.currentTime = 0;
+
+    // Hide and reset video
+    gameOverVideo.pause();
+    gameOverVideo.currentTime = 0;
+    gameOverVideo.style.display = "none";
 
     gameRunning = true;
 
@@ -31,6 +53,7 @@ function startGame() {
 
     face.style.top = faceY + "px";
 
+
     // Remove old pipes
     document.querySelectorAll(".pipe").forEach(pipe => {
         pipe.remove();
@@ -38,18 +61,28 @@ function startGame() {
 
     pipes = [];
 
+
+    // Hide start screen
     startScreen.style.display = "none";
+
+
+    // Start background music
+    bgMusic.currentTime = 0;
+    bgMusic.play();
+
 
     clearInterval(pipeTimer);
 
-    // Create pipes every 1.8 seconds
+    // Create pipes
     pipeTimer = setInterval(createPipe, 1800);
 
     gameLoop();
 }
 
 
+// ====================
 // FLAP
+// ====================
 function flap() {
 
     if (!gameRunning) return;
@@ -58,7 +91,9 @@ function flap() {
 }
 
 
+// ====================
 // CREATE PIPE
+// ====================
 function createPipe() {
 
     if (!gameRunning) return;
@@ -82,7 +117,9 @@ function createPipe() {
 
     topPipe.classList.add("pipe", "top");
 
-    topPipe.style.height = topHeight + "px";
+    topPipe.style.height =
+        topHeight + "px";
+
     topPipe.style.left = "500px";
 
 
@@ -91,7 +128,9 @@ function createPipe() {
 
     bottomPipe.classList.add("pipe", "bottom");
 
-    bottomPipe.style.height = bottomHeight + "px";
+    bottomPipe.style.height =
+        bottomHeight + "px";
+
     bottomPipe.style.left = "500px";
 
 
@@ -100,17 +139,21 @@ function createPipe() {
 
 
     pipes.push({
+
         top: topPipe,
         bottom: bottomPipe,
 
         x: 500,
 
         scored: false
+
     });
 }
 
 
+// ====================
 // GAME LOOP
+// ====================
 function gameLoop() {
 
     if (!gameRunning) return;
@@ -121,7 +164,8 @@ function gameLoop() {
 
     faceY += velocity;
 
-    face.style.top = faceY + "px";
+    face.style.top =
+        faceY + "px";
 
 
     // Move pipes
@@ -129,9 +173,11 @@ function gameLoop() {
 
         pipe.x -= 3;
 
-        pipe.top.style.left = pipe.x + "px";
+        pipe.top.style.left =
+            pipe.x + "px";
 
-        pipe.bottom.style.left = pipe.x + "px";
+        pipe.bottom.style.left =
+            pipe.x + "px";
 
 
         // SCORE
@@ -144,7 +190,8 @@ function gameLoop() {
 
             score++;
 
-            scoreDisplay.textContent = score;
+            scoreDisplay.textContent =
+                score;
         }
 
 
@@ -158,12 +205,13 @@ function gameLoop() {
     });
 
 
-    // Remove pipes that left screen
+    // Remove old pipes
     pipes = pipes.filter(pipe => {
 
         if (pipe.x < -100) {
 
             pipe.top.remove();
+
             pipe.bottom.remove();
 
             return false;
@@ -194,7 +242,9 @@ function gameLoop() {
 }
 
 
+// ====================
 // COLLISION DETECTION
+// ====================
 function checkCollision(pipe) {
 
     const faceLeft = 100;
@@ -203,12 +253,10 @@ function checkCollision(pipe) {
     const faceTop = faceY;
     const faceBottom = faceY + 55;
 
-
     const pipeLeft = pipe.x;
     const pipeRight = pipe.x + 70;
 
 
-    // Horizontal collision
     if (
         faceRight > pipeLeft &&
         faceLeft < pipeRight
@@ -221,21 +269,24 @@ function checkCollision(pipe) {
             700 - pipe.bottom.offsetHeight;
 
 
-        // Vertical collision
         if (
             faceTop < topHeight ||
             faceBottom > bottomTop
         ) {
 
             return true;
+
         }
+
     }
 
     return false;
 }
 
 
+// ====================
 // GAME OVER
+// ====================
 function gameOver() {
 
     if (!gameRunning) return;
@@ -245,28 +296,59 @@ function gameOver() {
     clearInterval(pipeTimer);
 
 
-    startScreen.style.display = "flex";
-
-    startScreen.querySelector("h1").textContent =
-        "GAME OVER";
-
-    startScreen.querySelector("p").textContent =
-        "Score: " + score;
+    // Change face
+    document.querySelector("#face img").src = "./gameover.jpeg";
 
 
-    startButton.textContent =
-        "PLAY AGAIN";
+    // Stop normal music
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+
+
+    // Play Game Over music
+    outMusic.currentTime = 0;
+    outMusic.play();
+
+
+    // Wait for Game Over music
+    outMusic.onended = function() {
+
+        // Show Game Over screen
+        startScreen.style.display = "flex";
+
+        startScreen.querySelector("h1").textContent =
+            "GAME OVER";
+
+        startScreen.querySelector("p").textContent =
+            "Score: " + score;
+
+        startButton.textContent =
+            "PLAY AGAIN";
+
+
+        // Show and play video
+        gameOverVideo.style.display = "block";
+
+        gameOverVideo.currentTime = 0;
+
+        gameOverVideo.play();
+
+    };
 }
 
 
+// ====================
 // START BUTTON
+// ====================
 startButton.addEventListener(
     "click",
     startGame
 );
 
 
+// ====================
 // KEYBOARD
+// ====================
 document.addEventListener(
     "keydown",
     function(event) {
@@ -274,6 +356,7 @@ document.addEventListener(
         if (event.code === "Space") {
 
             event.preventDefault();
+
 
             if (!gameRunning) {
 
@@ -291,7 +374,9 @@ document.addEventListener(
 );
 
 
+// ====================
 // MOUSE / TOUCH
+// ====================
 game.addEventListener(
     "click",
     function(event) {
