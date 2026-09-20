@@ -43,16 +43,14 @@ function startGame() {
     gameOverVideo.currentTime = 0;
     gameOverVideo.style.display = "none";
 
-    gameRunning = true;
-
+    // Reset score
     score = 0;
     scoreDisplay.textContent = score;
 
+    // Reset face
     faceY = 300;
-    velocity = -2;
-
+    velocity = 0;
     face.style.top = faceY + "px";
-
 
     // Remove old pipes
     document.querySelectorAll(".pipe").forEach(pipe => {
@@ -61,22 +59,47 @@ function startGame() {
 
     pipes = [];
 
-
     // Hide start screen
     startScreen.style.display = "none";
 
+    // Show countdown
+    const countdown = document.getElementById("countdown");
 
-    // Start background music
-    bgMusic.currentTime = 0;
-    bgMusic.play();
+    countdown.style.display = "flex";
+    countdown.textContent = "3";
 
+    setTimeout(() => {
+        countdown.textContent = "2";
+    }, 1000);
 
-    clearInterval(pipeTimer);
+    setTimeout(() => {
+        countdown.textContent = "1";
+    }, 2000);
 
-    // Create pipes
-    pipeTimer = setInterval(createPipe, 1800);
+    setTimeout(() => {
 
-    gameLoop();
+        countdown.textContent = "GO!";
+
+        // NOW GAME STARTS
+        gameRunning = true;
+
+        // Start background music
+        bgMusic.currentTime = 0;
+        bgMusic.play();
+
+        clearInterval(pipeTimer);
+
+        // Create pipes
+        pipeTimer = setInterval(createPipe, 1800);
+
+        gameLoop();
+
+        // Hide GO after a short time
+        setTimeout(() => {
+            countdown.style.display = "none";
+        }, 500);
+
+    }, 3000);
 }
 
 
