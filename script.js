@@ -15,7 +15,7 @@ let faceY;
 let velocity;
 
 let gravity = 0.35;
-let jump = -4;
+let jump = -8;
 
 let gameRunning = false;
 
