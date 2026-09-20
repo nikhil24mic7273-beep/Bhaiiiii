@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +10,38 @@
 
 <body>
 
+    <audio id="bgMusic" loop>
+        <source src="bgmusic.mp4" type="audio/mp4">
+    </audio>
+
+    <audio id="outMusic">
+        <source src="outmusic.mp4" type="audio/mp4">
+    </audio>
+
     <div class="game-container">
 
         <div id="score">0</div>
 
         <div id="game">
 
-           <div id="face">
-    <img src="images/face.jpeg" alt="Player face">
-</div>
+            <div id="face">
+                <img src="./face.jpeg" alt="Player face">
+            </div>
 
             <div id="start-screen">
+
                 <h1>FLAPPY FACE</h1>
+
                 <p>Press SPACE or CLICK to fly</p>
-                <button id="start-button">START GAME</button>
+
+                <button id="start-button">
+                    START GAME
+                </button>
+
+                <video id="gameOverVideo" autoplay muted playsinline>
+                    <source src="gameover.mp4" type="video/mp4">
+                </video>
+
             </div>
 
         </div>
