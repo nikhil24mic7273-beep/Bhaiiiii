@@ -14,8 +14,8 @@ outMusic.volume = 0.6;
 let faceY;
 let velocity;
 
-let gravity = 0.35;
-let jump = -44;
+let gravity = 0.45;
+let jump = -6;
 
 let gameRunning = false;
 
