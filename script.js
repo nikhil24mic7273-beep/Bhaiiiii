@@ -98,7 +98,7 @@ function createPipe() {
 
     if (!gameRunning) return;
 
-    const gap = 180;
+    const gap = 200;
 
     const minHeight = 80;
     const maxHeight = 400;
